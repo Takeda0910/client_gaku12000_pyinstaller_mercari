@@ -1,5 +1,6 @@
 import datetime
 import eel
+import math
 import os
 import pandas as pd
 import time
@@ -42,18 +43,19 @@ def log(txt):
         f.write(logStr + '\n')
     print(logStr)   
 
-def crawle_bueid_items(limit:int=None):    
+def crawle_bueid_items(limit:int):    
     driver.get("https://jp.mercari.com/mypage/purchases/completed")
     time.sleep(3)
-    while True:
-        item_ids = [elm.get_attribute("href").split("/")[-1] for elm in driver.find_elements_by_css_selector("#my-page-main-content mer-list-item a")]
-        item_ids = item_ids[:limit]
+    click_count = math.ceil((limit-50)/20)
+    for i in range(click_count):
         try:
             driver.find_elements_by_css_selector('mer-button button')[-1].click()
             time.sleep(3)
         except Exception as e:
             print(f"see more button not found:{e}")
             break
+    item_ids = [elm.get_attribute("href").split("/")[-1] for elm in driver.find_elements_by_css_selector("#my-page-main-content mer-list-item a")]
+    item_ids = item_ids[:limit]
     print(len(item_ids))
     eel.view_log_js(f"{len(item_ids)}件のID取得成功")
     
@@ -81,8 +83,8 @@ def crawle_bueid_items(limit:int=None):
     for item in items:
         df = df.append(item, ignore_index=True).fillna("")
     df.to_csv(EXP_CSV_PATH.format(datetime=now), header=["購入日時", "商品名", "価格", "販売者名(URL)", "商品ＩＤ", "商品URL"], encoding="utf-8-sig")
-    #chromeを閉じる
     log(f"処理完了　成功件数： {success} 件 / 失敗件数： {fail} 件")
+    #chromeを閉じる
     driver.quit()
     return items
     
@@ -145,9 +147,10 @@ def fetch_buied_item(item_id: str):
         item_id_url = item_id_url
     )
 
-def main():
-    crawle_bueid_items(5)
+def main(id_count):
+    int_id_count = int(id_count)
+    crawle_bueid_items(int_id_count)
 
 
-if __name__ == "__main__":
-    main()      
+# if __name__ == "__main__":
+#     main()      

@@ -11,6 +11,7 @@
                 <p class="seach-text">Get a list of purchased products</p>
             </div>
             <div class="text-center mt-3">
+                <input type="number" min="1" value="1" id="id_count">
                 <button id="search" class="btn btn-primary">Start</button>
             </div>
             <div class="text-center">
@@ -20,12 +21,14 @@
         <script type="text/javascript" src="./eel.js"></script>
         <script>
             search.addEventListener('click', () => {                             
-                eel.mercari_scraping();
+                eel.mercari_scraping(id_count.value);
             })
 
             eel.expose(view_log_js)
             function view_log_js(text){
                 log.value += text + "\n";
+                var textarea = document.getElementById('log');
+                textarea.scrollTop = textarea.scrollHeight;
             }
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
