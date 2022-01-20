@@ -15,5 +15,13 @@ def mercari_scraping(id_count):
     client_mercari_purchase.main(id_count)
     eel.view_log_js("終了")
     
+@eel.expose
+def mercari_scraping_2(id_count):
+    eel.view_log_js("開始")
+    eel.view_log_js("ID取得中…")
+    eel.view_log_js("しばらくお待ち下さい…")
+    client_mercari_purchase.main_2(id_count)
+    eel.view_log_js("終了")
+    
 desktop.start(app_name,end_point,size)
 #desktop.start(size=size,appName=app_name,endPoint=end_point)
