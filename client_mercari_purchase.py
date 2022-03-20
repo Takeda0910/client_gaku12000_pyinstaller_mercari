@@ -110,6 +110,7 @@ def fetch_buied_item(item_id: str):
         except Exception as e:
             print(f"sold price is not found: {e}")
 
+        
         try:
             buied_at_elm = driver.find_element_by_xpath("//span[contains(text(), '購入日時')]/following-sibling::span[1]")
             buied_at = buied_at_elm.text.split()
@@ -119,9 +120,15 @@ def fetch_buied_item(item_id: str):
             print(f"buied_at is not found: {e}")
                                             
         
-        try:
-            seller_name = driver.find_element_by_css_selector("#transaction-main-content [data-testid='seller-link']").get_attribute("name")
-            seller_name_url = driver.find_element_by_css_selector("#transaction-main-content a").get_attribute("href")
+        try: # 2022/0320 読み込み不可になったため変更
+            # seller_name = driver.find_element_by_css_selector("#transaction-main-content [data-testid='seller-link']").get_attribute("name")
+            seller_name = driver.find_element_by_css_selector(".layout__LayoutCol-sc-1lyi7xi-2.ijeNNK [data-testid='seller-link']").get_attribute("name")
+            
+            
+            # seller_name_url = driver.find_element_by_css_selector("#transaction-main-content a").get_attribute("href")
+            seller_name_url = driver.find_element_by_css_selector(".layout__LayoutCol-sc-1lyi7xi-2.ijeNNK a").get_attribute("href")
+            
+            
             seller_name_and_url = f"{seller_name} ({seller_name_url})"
             print(seller_name_and_url)
         except Exception as e:
@@ -134,10 +141,11 @@ def fetch_buied_item(item_id: str):
             print(f"item name is not found")
 
         try:
-            item_id_url = driver.find_element_by_css_selector("#transaction-sidebar mer-list-item a").get_attribute("href")
+            # item_id_url = driver.find_element_by_css_selector("#transaction-sidebar mer-list-item a").get_attribute("href")
+            item_id_url = driver.find_element_by_css_selector(".StickyNode__SimpleSticky-sc-bomsx6-1.jVOxuG mer-list-item a").get_attribute("href")
             print(f"item_id_url {item_id_url}")
         except Exception as e:
-            print(f"item name is not found")      
+            print(f"item url is not found")      
 
     except Exception as e:
         print(f"buyer data is not found: {item_id} | {e}")
@@ -228,8 +236,12 @@ def fetch_buied_item_2(item_id: str):
                                             
         
         try:
-            seller_name = driver.find_element_by_css_selector("#transaction-main-content [data-testid='seller-link']").get_attribute("name")
-            seller_name_url = driver.find_element_by_css_selector("#transaction-main-content a").get_attribute("href")
+            # seller_name = driver.find_element_by_css_selector("#transaction-main-content [data-testid='seller-link']").get_attribute("name")
+            seller_name = driver.find_element_by_css_selector(".layout__LayoutCol-sc-1lyi7xi-2.ijeNNK [data-testid='seller-link']").get_attribute("name")
+            
+            # seller_name_url = driver.find_element_by_css_selector("#transaction-main-content a").get_attribute("href")
+            seller_name_url = driver.find_element_by_css_selector(".layout__LayoutCol-sc-1lyi7xi-2.ijeNNK a").get_attribute("href")
+            
             seller_name_and_url = f"{seller_name} ({seller_name_url})"
             print(seller_name_and_url)
         except Exception as e:
@@ -242,7 +254,8 @@ def fetch_buied_item_2(item_id: str):
             print(f"item name is not found")
 
         try:
-            item_id_url = driver.find_element_by_css_selector("#transaction-sidebar mer-list-item a").get_attribute("href")
+            # item_id_url = driver.find_element_by_css_selector("#transaction-sidebar mer-list-item a").get_attribute("href")
+            item_id_url = driver.find_element_by_css_selector(".StickyNode__SimpleSticky-sc-bomsx6-1.jVOxuG mer-list-item a").get_attribute("href")
             print(f"item_id_url {item_id_url}")
         except Exception as e:
             print(f"item name is not found")      
